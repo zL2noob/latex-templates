@@ -1,0 +1,100 @@
+\documentclass[a4paper]{article}
+\usepackage[lmargin=2cm,rmargin=2cm,tmargin=3cm,bmargin=2cm]{geometry}
+\usepackage{cmap}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage[english, swedish]{babel}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{esvect}
+\usepackage{nicematrix}
+\NiceMatrixOptions{cell-space-limits = 2pt}
+\usepackage{commath}
+\usepackage{breqn}
+\usepackage{xfrac}
+\usepackage{bm}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, tikzmark, shapes.misc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[swedish]{cleveref}
+\usepackage{datetime2}
+\usepackage[most]{tcolorbox}
+\usepackage{ulem}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{csvsimple}
+\usepackage{xparse}
+\DTMsetdatestyle{ddmmyyyy}
+\DTMsetup{datesep=/, yearmonthsep=-}
+\pagestyle{fancy}
+
+
+\newcommand{\striked}[1]{\mathrel{{\ooalign{\hidewidth$\not{\phantom{=}}$\hidewidth\cr$#1$}}}} % Make a symbol strikethroughed with a standard-length strike line
+\newcommand{\strikedwhole}[1]{\tikzmarknode[strike out, draw]{1}{#1}} % Make a symbol strikethroughed with the strike line going from top right to bottom left of the symbol
+
+\newcommand{\qed}{\(\null\hfill\blacksquare\)}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\defeq}{\mathrel{\mathop:}=}
+\newcommand{\eqdef}{=\mathrel{\mathop:}}
+\newcommand{\eqq}{\stackrel{?}{=}}
+\newcommand{\eqe}{\stackrel{!}{=}}
+\newcommand{\matrixline}[3][right]{\Block[borders={#1,tikz={dashed}}]{#2-#3}{}}
+\newcommand{\question}[1]{
+	\begin{tcolorbox}[boxrule=0pt, sharp corners=all]
+		#1
+	\end{tcolorbox}
+}
+\newcommand{\diffd}[1]{\mathrm{d}#1} % Differential to be used by itself
+\newcommand{\intd}[1]{\ \diffd{#1}} % Differential to be used in integrals
+\newcommand{\derfrac}[2]{\frac{\diffd{#1}}{\diffd{#2}}} % Derivative fraction
+\newcommand{\parfrac}[2]{\frac{\partial #1}{\partial #2}} % Partial derivative fraction
+\newcommand{\highderfrac}[3]{\derfrac{^{#1}#2}{{#3}^{#1}}} % Higher order derivative fraction
+\newcommand{\highparfrac}[3]{\parfrac{^{#1}#2}{{#3}^{#1}}} % Higher order partial derivative fraction
+\newcommand{\transp}[1]{#1^{\mathrm{T}}} % Transpose (of matrix/vector)
+\newcommand{\transpv}[1]{[#1]^{\mathrm{T}}} % Transpose vector
+\newcommand{\empset}{\varnothing} % My preferred symbol for empty set
+\newcommand{\laplace}{\mathcal{L}}
+\newcommand{\laplaceinv}{\laplace^{-1}}
+\newcommand{\laplaceof}[1]{\laplace\left\{#1\right\}}
+\newcommand{\laplaceinvof}[1]{\laplaceinv\left\{#1\right\}}
+\newcommand{\inprod}[2]{\left<#1\middle\vert#2\right>} % Inner product
+\newcommand{\conj}[1]{\overline{#1}} % Complex conjugate
+\usepackage{bbm}
+\newcommand{\one}{\mathbbm{1}} % Thick 1
+\newcommand{\eps}{\varepsilon}
+
+% Linear algebra
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\im}{im}
+
+% Floating refs
+\usepackage{zref-user}
+\newcommand{\floatingref}[2]{\hyperlink{#1}{#2}}
+\newcommand{\floatinglabel}[1]{\phantomsection\label{#1}\hypertarget{#1}{}}
+
+% For reports
+\setcounter{secnumdepth}{0} % sections are now unnumbered but still show up in table of contents
+\usepackage{tocloft} % for managing table of contents
+\renewcommand\cftsecdotsep{\cftdot} % add dots in table of contents
+\makeatletter % Make \@starttoc possible; this must be run before defining a command that uses \@starttoc
+\newcommand{\makemytitlepage}{
+	\maketitle
+	\vspace*{\fill}
+	\@starttoc{toc}
+	\vspace*{\fill}
+	\thispagestyle{empty}
+	\newpage
+	\pagenumbering{arabic} % Start page numbering here
+}
+\makeatother % Undo \makeatletter

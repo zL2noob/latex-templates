@@ -1,0 +1,66 @@
+\usepackage{xstring}
+
+% Colors
+\definecolor{KeywordColor}{HTML}{308741}
+\definecolor{SubKeywordColor}{HTML}{144f20}
+\definecolor{TopicColor}{HTML}{4c4c4c}
+\definecolor{ImportantTopicColor}{HTML}{00a5c6}
+\definecolor{CommentColor}{HTML}{0f424c}
+\definecolor{ProofBorderColor}{HTML}{1e8499}
+\newcommand{\keyword}[1]{\textcolor{KeywordColor}{#1}}
+\newcommand{\subkeyword}[1]{\textcolor{SubKeywordColor}{#1}}
+
+% Arrow
+\DeclareFontFamily{U}{mathb}{}
+\DeclareFontShape{U}{mathb}{m}{n}{
+     <-5.5> mathb5
+  <5.5-6.5> mathb6
+  <6.5-7.5> mathb7
+  <7.5-8.5> mathb8
+  <8.5-9.5> mathb9
+  <9.5-11>  mathb10
+  <11->     mathb12
+}{}
+\DeclareSymbolFont{mathb}{U}{mathb}{m}{n}
+\DeclareMathSymbol{\relatedtopicarrow}{3}{mathb}{"EB}
+
+% Topics
+\NewDocumentCommand{\topicintro}{mmgg}{
+    % Args:
+    % Topic color
+    % Topic name
+    % Keyword color
+    % Keyword name
+    \IfNoValueTF{#4}{
+        \textcolor{#1}{\uline{#2}}:
+    }{
+        \textcolor{#1}{\uline{#2}}: (\color{#3}\textbf{#4}\color{black})
+    }
+}
+\makeatletter
+\newcommand{\LeoSummary@thistopiccolor}{} % To be used in \newtopic
+\NewDocumentCommand{\newtopic}{O{} O{} mg}{
+    % Args:
+    % [important]: Set to "important" to change topic color
+    % [nolinebreak]: Omits the trailing linebreak
+    % Topic name
+    % Keyword name
+    \IfStrEq{#1}{important} {
+        \renewcommand{\LeoSummary@thistopiccolor}{ImportantTopicColor}
+    } {
+        \renewcommand{\LeoSummary@thistopiccolor}{TopicColor}
+    }
+    \IfNoValueTF{#4}{
+        \topicintro{\LeoSummary@thistopiccolor}{#3}
+    }{
+        \topicintro{\LeoSummary@thistopiccolor}{#3}{SubKeywordColor}{#4}
+    }
+    \IfStrEq{#2}{nolinebreak}{}{\\}
+}
+\makeatother
+
+\newcommand{\newcomment}[2]{\begin{itemize}[leftmargin=*]\item[$\relatedtopicarrow$]\color{CommentColor}\uline{#1}:#2\color{black}\end{itemize}}
+%\newcommand{\proof}[1]{\begin{itemize}[leftmargin=*]\item[$\relatedtopicarrow$]\newtopic[important]{Bevis}#1\end{itemize}}
+%\newcommand{\proof}[1]{\begin{itemize}[leftmargin=*]\item[$\relatedtopicarrow$]\newtopic{Bevis}#1\end{itemize}}
+\tcbuselibrary{breakable}
+\newcommand{\proof}[1]{\begin{itemize}[leftmargin=*]\item[$\relatedtopicarrow$]\newtopic[][nolinebreak]{Bevis}\begin{tcolorbox}[breakable, boxrule=0pt, colback=black!2, left=1mm, frame hidden, sharp corners, enhanced, borderline west={2pt}{0pt}{ProofBorderColor}]#1\end{tcolorbox}\end{itemize}}
