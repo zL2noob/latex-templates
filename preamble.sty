@@ -1,5 +1,6 @@
 \documentclass[a4paper]{article}
 \usepackage[lmargin=2cm,rmargin=2cm,tmargin=3cm,bmargin=2cm]{geometry}
+\usepackage{tocloft} % for managing table of contents
 \usepackage{cmap}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -86,7 +87,6 @@
 
 % For reports
 \setcounter{secnumdepth}{0} % sections are now unnumbered but still show up in table of contents
-\usepackage{tocloft} % for managing table of contents
 \renewcommand\cftsecdotsep{\cftdot} % add dots in table of contents
 \makeatletter % Make \@starttoc possible; this must be run before defining a command that uses \@starttoc
 \newcommand{\makemytitlepage}{
