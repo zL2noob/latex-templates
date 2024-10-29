@@ -5,10 +5,11 @@
 \definecolor{SubKeywordColor}{HTML}{144f20}
 \definecolor{TopicColor}{HTML}{4c4c4c}
 \definecolor{ImportantTopicColor}{HTML}{00a5c6}
-\definecolor{CommentColor}{HTML}{0f424c}
+\definecolor{IntuitionColor}{HTML}{0f424c}
 \definecolor{ProofBorderColor}{HTML}{1e8499}
 \newcommand{\keyword}[1]{\textcolor{KeywordColor}{#1}}
 \newcommand{\subkeyword}[1]{\textcolor{SubKeywordColor}{#1}}
+\newcommand{\intuition}[1]{\textcolor{IntuitionColor}{#1}}
 
 % Arrow
 \DeclareFontFamily{U}{mathb}{}
@@ -59,7 +60,7 @@
 }
 \makeatother
 
-\newcommand{\newcomment}[2]{\begin{itemize}[leftmargin=*]\item[$\relatedtopicarrow$]\color{CommentColor}\uline{#1}:#2\color{black}\end{itemize}}
+\newcommand{\newcomment}[2]{\begin{itemize}[leftmargin=*]\item[$\relatedtopicarrow$]\color{IntuitionColor}\uline{#1}:#2\color{black}\end{itemize}}
 %\newcommand{\proof}[1]{\begin{itemize}[leftmargin=*]\item[$\relatedtopicarrow$]\newtopic[important]{Bevis}#1\end{itemize}}
 %\newcommand{\proof}[1]{\begin{itemize}[leftmargin=*]\item[$\relatedtopicarrow$]\newtopic{Bevis}#1\end{itemize}}
 \tcbuselibrary{breakable}
