@@ -1,12 +1,12 @@
 \usepackage{xstring}
+\tcbuselibrary{breakable}
 
 % Colors
 \definecolor{KeywordColor}{HTML}{308741}
 \definecolor{SubKeywordColor}{HTML}{144f20}
 \definecolor{TopicColor}{HTML}{4c4c4c}
-\definecolor{ImportantTopicColor}{HTML}{00a5c6}
 \definecolor{IntuitionColor}{HTML}{0f424c}
-\definecolor{ProofBorderColor}{HTML}{1e8499}
+\definecolor{TopicBorderColor}{HTML}{1e8499}
 \newcommand{\keyword}[1]{\textcolor{KeywordColor}{#1}}
 \newcommand{\subkeyword}[1]{\textcolor{SubKeywordColor}{#1}}
 \newcommand{\intuition}[1]{\textcolor{IntuitionColor}{#1}}
@@ -26,42 +26,36 @@
 \DeclareMathSymbol{\relatedtopicarrow}{3}{mathb}{"EB}
 
 % Topics
-\NewDocumentCommand{\topicintro}{mmgg}{
+\NewDocumentCommand{\topic}{m g g}{
     % Args:
-    % Topic color
     % Topic name
-    % Keyword color
-    % Keyword name
-    \IfNoValueTF{#4}{
-        \textcolor{#1}{\uline{#2}}:
-    }{
-        \textcolor{#1}{\uline{#2}}: (\color{#3}\textbf{#4}\color{black})
-    }
+    % Keyword name (If #3 exists, else Content)
+    % Content
+    \textcolor{TopicColor}{\uline{#1}}:
+    \IfNoValueTF{#3}{\relax}{(\color{SubKeywordColor}\textbf{#2}\color{black})}
+    \begin{tcolorbox}[
+        breakable,
+        boxrule=0pt,
+        colback=black!2,
+        left=1mm,
+        frame hidden,
+        sharp corners,
+        enhanced,
+        borderline west={2pt}{0pt}{TopicBorderColor}]
+        \IfNoValueTF{#3}{#2}{#3}
+    \end{tcolorbox}
 }
-\makeatletter
-\newcommand{\LeoSummary@thistopiccolor}{} % To be used in \newtopic
-\NewDocumentCommand{\newtopic}{O{} O{} mg}{
-    % Args:
-    % [important]: Set to "important" to change topic color
-    % [nolinebreak]: Omits the trailing linebreak
-    % Topic name
-    % Keyword name
-    \IfStrEq{#1}{important} {
-        \renewcommand{\LeoSummary@thistopiccolor}{ImportantTopicColor}
-    } {
-        \renewcommand{\LeoSummary@thistopiccolor}{TopicColor}
-    }
-    \IfNoValueTF{#4}{
-        \topicintro{\LeoSummary@thistopiccolor}{#3}
-    }{
-        \topicintro{\LeoSummary@thistopiccolor}{#3}{SubKeywordColor}{#4}
-    }
-    \IfStrEq{#2}{nolinebreak}{}{\\}
-}
-\makeatother
 
-\newcommand{\newcomment}[2]{\begin{itemize}[leftmargin=*]\item[$\relatedtopicarrow$]\color{IntuitionColor}\uline{#1}:#2\color{black}\end{itemize}}
-%\newcommand{\proof}[1]{\begin{itemize}[leftmargin=*]\item[$\relatedtopicarrow$]\newtopic[important]{Bevis}#1\end{itemize}}
-%\newcommand{\proof}[1]{\begin{itemize}[leftmargin=*]\item[$\relatedtopicarrow$]\newtopic{Bevis}#1\end{itemize}}
-\tcbuselibrary{breakable}
-\newcommand{\proof}[1]{\begin{itemize}[leftmargin=*]\item[$\relatedtopicarrow$]\newtopic[][nolinebreak]{Bevis}\begin{tcolorbox}[breakable, boxrule=0pt, colback=black!2, left=1mm, frame hidden, sharp corners, enhanced, borderline west={2pt}{0pt}{ProofBorderColor}]#1\end{tcolorbox}\end{itemize}}
+\NewDocumentCommand{\topiccomment}{s m m}{
+    % Args:
+    % *: Make it colored as intuition and omit linebreak
+    % Comment name
+    % Content
+    \begin{itemize}[leftmargin=*]
+        \item[$\relatedtopicarrow$] \color{\IfBooleanTF{#1}{IntuitionColor}{TopicColor}}\uline{#2}:
+        \IfBooleanTF{#1}{\relax}{\color{black}\\}#3
+        \IfBooleanTF{#1}{\color{black}}{\relax}
+    \end{itemize}
+}
+
+\newcommand{\proof}[1]{\topiccomment{Proof}{#1}}
