@@ -26,7 +26,7 @@
 \DeclareMathSymbol{\relatedtopicarrow}{3}{mathb}{"EB}
 
 % Topics
-\NewDocumentCommand{\topic}{m g g}{
+\NewDocumentCommand{\topic}{m +g +g}{
     % Args:
     % Topic name
     % Keyword name (If #3 exists, else Content)
@@ -46,7 +46,7 @@
     \end{tcolorbox}
 }
 
-\NewDocumentCommand{\topiccomment}{s m m}{
+\NewDocumentCommand{\topiccomment}{s m +m}{
     % Args:
     % *: Make it colored as intuition and omit linebreak
     % Comment name
