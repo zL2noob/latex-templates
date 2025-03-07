@@ -84,8 +84,19 @@
 
 % Floating refs
 \usepackage{zref-user}
-\newcommand{\floatingref}[2]{\hyperlink{#1}{#2}}
-\newcommand{\floatinglabel}[1]{\phantomsection\label{#1}\hypertarget{#1}{}}
+\makeatletter
+\newcommand{\flabel}[2]{\phantomsection\label{#1}\hypertarget{#1}{}\expandafter\def\csname floatinglabeltext@#1\endcsname{#2}#2}
+\NewDocumentCommand{\fref}{m g}{
+	% Args:
+	% Label
+	% Text (if empty, inherit from corresponding label)
+	\IfNoValueTF{#2}{
+		\hyperlink{#1}{\csname floatinglabeltext@#1\endcsname}
+	}{
+		\hyperlink{#1}{#2}
+	}
+}
+\makeatother
 
 % For reports
 \setcounter{secnumdepth}{0} % sections are now unnumbered but still show up in table of contents
