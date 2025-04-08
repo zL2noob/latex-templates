@@ -82,19 +82,34 @@
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\im}{im}
 
-% Floating refs
-\usepackage{zref-user}
+%% Floating refs %%
 \makeatletter
-\newcommand{\flabel}[2]{\phantomsection\label{#1}\hypertarget{#1}{}\expandafter\def\csname floatinglabeltext@#1\endcsname{#2}#2}
-\NewDocumentCommand{\fref}{m g}{
-	% Args:
-	% Label
-	% Text (if empty, inherit from corresponding label)
-	\IfNoValueTF{#2}{
-		\hyperlink{#1}{\csname floatinglabeltext@#1\endcsname}
-	}{
-		\hyperlink{#1}{#2}
-	}
+% Args:
+% #1: Label
+% #2: Text (not printed; but may be printed when calling \fref)
+\newcommand{\flabel}[2]{%
+  \phantomsection\hypertarget{#1}{}%
+  \protected@write\@auxout{}{\string\newlabeltext{#1}{{#2}}}%
+}
+
+% Internal macro: stores text associated with a label
+\newcommand{\newlabeltext}[2]{%
+  \expandafter\gdef\csname flabeltext@#1\endcsname{#2}%
+}
+
+% Args:
+% #1: Label
+% #2: Text (if empty, inherit from corresponding \flabel)
+\NewDocumentCommand{\fref}{m g}{%
+  \IfNoValueTF{#2}{%
+	\@ifundefined{flabeltext@#1}{%
+	  \textbf{??}%
+	}{%
+	  \hyperlink{#1}{\csname flabeltext@#1\endcsname}%
+	}%
+  }{%
+    \hyperlink{#1}{#2}%
+  }%
 }
 \makeatother
 
