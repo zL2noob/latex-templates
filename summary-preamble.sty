@@ -33,8 +33,8 @@
     % Content
     \textcolor{TopicColor}{\uline{#1}}:
     \IfNoValueTF{#3}{\relax}{(\color{SubKeywordColor}\textbf{#2}\color{black})}
-    \begin{tcolorbox}[
-        breakable,
+    \nopagebreak\begin{tcolorbox}[
+        % breakable,
         boxrule=0pt,
         colback=black!2,
         left=1mm,
