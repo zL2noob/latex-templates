@@ -48,14 +48,28 @@
 
 \NewDocumentCommand{\topiccomment}{s m +m}{
     % Args:
-    % *: Make it colored as intuition and omit linebreak
+    % *: Omit linebreak
     % Comment name
     % Content
     \begin{itemize}[leftmargin=*]
-        \item[$\relatedtopicarrow$] \color{\IfBooleanTF{#1}{IntuitionColor}{TopicColor}}\uline{#2}:
-        \IfBooleanTF{#1}{\relax}{\color{black}\\}#3
-        \IfBooleanTF{#1}{\color{black}}{\relax}
+        \item[$\relatedtopicarrow$] \color{TopicColor}\uline{#2}:
+        \color{black}\IfBooleanTF{#1}{\relax}{\\}#3
+        \color{black}
     \end{itemize}
 }
 
-\newcommand{\proof}[1]{\topiccomment{Proof}{#1}}
+\NewDocumentCommand{\topicintuition}{m +m}{
+    % Args:
+    % Comment name
+    % Content
+    \begin{itemize}[leftmargin=*]
+        \item[$\relatedtopicarrow$] \color{IntuitionColor}\uline{#1}: #2\color{black}
+    \end{itemize}
+}
+
+\NewDocumentCommand{\proof}{s +m}{
+    % Args:
+    % *: Omit linebreak
+    % Content
+    \IfBooleanTF{#1}{\topiccomment*{Proof}{#2}}{\topiccomment{Proof}{#2}}
+}
